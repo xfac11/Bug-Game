@@ -7,25 +7,29 @@ public class Gun : MonoBehaviour
 {
     public Camera TheCamera;
     public LayerMask LayerMask;
-    public float Range;
-
+    public float Range = 20.0f;
+    public float AttackRate = 1.0f;
     public ParticleSystem MussleParticles;
     public GameObject HitEffect;//Change this to be in the Target so we can have different HitEffects for each target.
                                 //Or maybe this is the guns HitEffect and in target theirs an HurtEffect
-
+    private float _time = 0.0f;
     // Update is called once per frame
     void Update()
     {
         if(Input.GetMouseButton(0))
         {
-            RaycastHit hit;
-            if(ShootRay(out hit))
+            _time += Time.deltaTime;
+            if(_time >= AttackRate || Input.GetMouseButtonDown(0))
             {
-                //Damage and VFX on the damaged thing. Particles etc.
-                Damage(hit);
+                RaycastHit hit;
+                if (ShootRay(out hit))
+                {
+                    //Damage and VFX on the damaged thing. Particles etc.
+                    Damage(hit);
+                }
+                MussleFlare();
+                _time = 0.0f;
             }
-            MussleFlare();
-
         }
     }
 
