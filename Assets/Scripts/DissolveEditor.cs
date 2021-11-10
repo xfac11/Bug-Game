@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DissolveEditor : MonoBehaviour
 {
-    [SerializeField] private Vector3 DirectionDis;
-    [SerializeField] private Vector2 MaxMin;
+    [SerializeField] private Vector3 DirectionDis = new Vector3(2.54f, 1f, 1f);
+    [SerializeField] private Vector2 MaxMin = new Vector2(0.5f, 1.5f);
 
     private static readonly string _DirectionDisStr = "Vector3_DirectionDis";
     private static readonly string _MaxMinDistStr = "Vector2_MaxMinDist";
