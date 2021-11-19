@@ -10,7 +10,7 @@ public class AIEnemy : MonoBehaviour, ITarget
     [SerializeField] private float Speed = 5.0f;
     [SerializeField] private float WalkRange = 5.0f;
     [SerializeField] private float RotationSpeed = 5.0f;
-    [SerializeField] private float RotationSmoothTime = 1.0f;
+    [SerializeField] private float RotationSmoothTime = 0.8f;
     [SerializeField] private GameObject HitPs;
     [SerializeField] private GameObject BitePs;
     [SerializeField] private float DamageRange = 2.0f;
@@ -32,6 +32,7 @@ public class AIEnemy : MonoBehaviour, ITarget
         {
             StartCoroutine(AttackCooldown());
             DealDamageToPlayer();
+            _rigidbody.velocity = Vector3.zero;
             //Damage player
             //Camera shake and things
         }
@@ -76,8 +77,8 @@ public class AIEnemy : MonoBehaviour, ITarget
     {
         if(!IsDead)
         {
-            _currentRotaion = Vector3.SmoothDamp(_currentRotaion, Quaternion.LookRotation(_direction, Vector3.up).eulerAngles, ref _rotationSmoothVelocity, RotationSmoothTime);
-            transform.eulerAngles = _currentRotaion;
+            Quaternion smoothedRotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_direction, Vector3.up), RotationSmoothTime);
+            transform.rotation = smoothedRotation;
         }
     }
     public void StartRotating()
