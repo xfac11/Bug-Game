@@ -550,13 +550,13 @@ GameObject:
   - component: {fileID: 269903904672933813}
   - component: {fileID: 6583603548934488132}
   - component: {fileID: 5235416577760755371}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: AgentBug
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2279829578067304253
 Transform:
   m_ObjectHideFlags: 0
@@ -603,6 +603,9 @@ MonoBehaviour:
   RotationSpeed: 5
   RotationSmoothTime: 0.1
   HitPs: {fileID: 1408584620761355550, guid: 5bab7ca95e3a11c4baa6f685ed68d71e, type: 3}
+  BitePs: {fileID: 1408584620761355550, guid: d5ebd9049df377444b4ca846e9fc4a3f, type: 3}
+  DamageRange: 2
+  AttackRate: 1
 --- !u!65 &6583603548934488132
 BoxCollider:
   m_ObjectHideFlags: 0

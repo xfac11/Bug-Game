@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class ThirdPersonAim : MonoBehaviour
     public float NormalFOV = 40f;
     public float AimedFOV = 20f;
     public float duration = 1.0f;
+    private float timer = 0.0f;
     private void Update()
     {
         if (Input.GetMouseButtonDown(1))
@@ -27,8 +29,24 @@ public class ThirdPersonAim : MonoBehaviour
             //StopAllCoroutines();
             //StartCoroutine(ChangeFOV(NormalFOV));
         }
-    }
+        if(timer > 0)
+        {
+            timer -= Time.deltaTime;
+            if(timer <= 0f)
+            {
+                CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = ThirdPersonCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
+                cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0.0f;
+            }
+        }
+    }
+    public void CameraShake(float time, float amplitudeGain)
+    {
+        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = ThirdPersonCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = amplitudeGain;
+        timer = time;
+    }
     private void ActivateAim()
     {
         Aimed?.Invoke();
