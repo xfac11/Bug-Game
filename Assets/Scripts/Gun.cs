@@ -20,6 +20,7 @@ public class Gun : MonoBehaviour
     private bool _spraying = false;
     private int _ammo;
     public bool DamageEnemies = true;
+    Coroutine audioFadeCorutine;
     public int Ammo
     {
         get
@@ -56,10 +57,13 @@ public class Gun : MonoBehaviour
             {
                 _spraying = true;
                 MussleFlare();
+                GetComponent<AudioSource>().Play();
+                GetComponent<AudioSource>().volume = 1;
             }
             _time += Time.deltaTime;
             if(_time >= AttackRate || Input.GetMouseButtonDown(0))
             {
+                
                 LineRenderer lr;
                 if (GunTrail != null)
                 {
@@ -76,15 +80,23 @@ public class Gun : MonoBehaviour
                     DamageTarget(hit);
                 }
                 if (!IsSpray)
+                {
+                    GetComponent<AudioSource>().Play();
+                    GetComponent<AudioSource>().volume = 1;
                     MussleFlare();
+                }
                 _time = 0.0f;
 
             }
         }
-        else
+        else if(Input.GetMouseButtonUp(0))
         {
             _spraying = false;
             MussleParticles.Stop();
+            AudioSource audioSource = GetComponent<AudioSource>();
+            if(audioFadeCorutine != null)
+                StopCoroutine(audioFadeCorutine);
+            audioFadeCorutine = StartCoroutine(FadeAudioSource.StartFade(audioSource, 0.5f, 0f, true));
         }
     }
 

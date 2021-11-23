@@ -593,13 +593,13 @@ MonoBehaviour:
   Damage: 10
   Player: {fileID: 0}
   Speed: 10
-  WalkRange: 10
   RotationSpeed: 5
   RotationSmoothTime: 0.1
   HitPs: {fileID: 1408584620761355550, guid: 5bab7ca95e3a11c4baa6f685ed68d71e, type: 3}
   BitePs: {fileID: 1408584620761355550, guid: d5ebd9049df377444b4ca846e9fc4a3f, type: 3}
   DamageRange: 2
   AttackRate: 1
+  Body: {fileID: 3089260697414637625}
 --- !u!65 &6583603548934488132
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2709,7 +2709,6 @@ GameObject:
   - component: {fileID: 2279829579359328319}
   - component: {fileID: 2279829579359328304}
   - component: {fileID: 2279829579359328305}
-  - component: {fileID: 2279829579359328318}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -2778,19 +2777,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2279829579359328318
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2279829579359328316}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2279829579426442862
 GameObject:
   m_ObjectHideFlags: 0

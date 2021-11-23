@@ -8,13 +8,13 @@ public class AIEnemy : MonoBehaviour, ITarget
     [SerializeField] private int Damage = 10;
     [SerializeField] private Transform Player;
     [SerializeField] private float Speed = 5.0f;
-    [SerializeField] private float WalkRange = 5.0f;
     [SerializeField] private float RotationSpeed = 5.0f;
     [SerializeField] private float RotationSmoothTime = 0.8f;
     [SerializeField] private GameObject HitPs;
     [SerializeField] private GameObject BitePs;
     [SerializeField] private float DamageRange = 2.0f;
     [SerializeField] private float AttackRate = 5.0f;
+    [SerializeField] private GameObject Body;
     private float _attackTime = 0.0f;
     private Coroutine _lookCoroutine;
     private Vector3 _rotationSmoothVelocity;
@@ -24,7 +24,6 @@ public class AIEnemy : MonoBehaviour, ITarget
     private bool IsDead = false;
     private Rigidbody _rigidbody;
     private ITarget _playerTarget;
-    
 
     private void Update()
     {
@@ -32,6 +31,7 @@ public class AIEnemy : MonoBehaviour, ITarget
         {
             StartCoroutine(AttackCooldown());
             DealDamageToPlayer();
+            LeanTween.moveLocalZ(Body, Body.transform.localPosition.z + 0.5f, 0.1f).setLoopPingPong(1).setDelay(0.05f);
             _rigidbody.velocity = Vector3.zero;
             //Damage player
             //Camera shake and things
@@ -121,4 +121,13 @@ public class AIEnemy : MonoBehaviour, ITarget
             Destroy(gameObject,2f);
         }
     }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, DamageRange);
+    }
+#endif
+
 }
