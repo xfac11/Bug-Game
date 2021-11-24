@@ -9,7 +9,7 @@ namespace Bug.Controls
         public CharacterController controller;
         public Transform cam;
 
-        public float WalkingSpeed = 6f;
+        public float WalkingSpeed = 3f;
         public float RunningSpeed = 12f;
 
         private float _speed;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +10,14 @@ public class GunSwitcher : MonoBehaviour
 
     void Start()
     {
+        SecondGun.GetComponent<Gun>().Shooting += CameraShaking; 
         FirstGun.SetActive(true);
         SecondGun.SetActive(false);
+    }
+
+    private void CameraShaking()
+    {
+        GetComponent<ThirdPersonAim>().CameraShake(0.2f, 0.5f);
     }
 
     // Update is called once per frame

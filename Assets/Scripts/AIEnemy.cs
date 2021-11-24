@@ -27,15 +27,19 @@ public class AIEnemy : MonoBehaviour, ITarget
 
     private void Update()
     {
-        if(Vector3.Distance(Player.position,transform.position) < DamageRange && _attackTime == 0)
+        if(Player != null)
         {
-            StartCoroutine(AttackCooldown());
-            DealDamageToPlayer();
-            LeanTween.moveLocalZ(Body, Body.transform.localPosition.z + 0.5f, 0.1f).setLoopPingPong(1).setDelay(0.05f);
-            _rigidbody.velocity = Vector3.zero;
-            //Damage player
-            //Camera shake and things
+            if (Vector3.Distance(Player.position, transform.position) < DamageRange && _attackTime == 0)
+            {
+                StartCoroutine(AttackCooldown());
+                DealDamageToPlayer();
+                LeanTween.moveLocalZ(Body, Body.transform.localPosition.z + 0.5f, 0.1f).setLoopPingPong(1).setDelay(0.05f);
+                _rigidbody.velocity = Vector3.zero;
+                //Damage player
+                //Camera shake and things
+            }
         }
+        
     }
 
     private void DealDamageToPlayer()

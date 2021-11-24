@@ -21,6 +21,7 @@ public class Gun : MonoBehaviour
     private int _ammo;
     public bool DamageEnemies = true;
     Coroutine audioFadeCorutine;
+    public Action Shooting;
     public int Ammo
     {
         get
@@ -63,7 +64,8 @@ public class Gun : MonoBehaviour
             _time += Time.deltaTime;
             if(_time >= AttackRate || Input.GetMouseButtonDown(0))
             {
-                
+
+                Shooting?.Invoke();
                 LineRenderer lr;
                 if (GunTrail != null)
                 {
