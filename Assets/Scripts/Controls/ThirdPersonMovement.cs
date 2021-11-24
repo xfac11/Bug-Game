@@ -50,6 +50,7 @@ namespace Bug.Controls
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
             }
+            transform.position = new Vector3(transform.position.x, 0.524f, transform.position.z);
         }
     }
 }
