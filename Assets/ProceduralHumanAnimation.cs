@@ -62,9 +62,16 @@ public class ProceduralHumanAnimation : MonoBehaviour
     }
     private void Update()
     {
-        L_HandTarget.transform.position = L_HandTargetFollow.transform.position;
-        R_HandTarget.transform.position = R_HandTargetFollow.transform.position;
-
+        if(L_HandTargetFollow != null && L_HandTargetFollow.activeInHierarchy)
+        {
+            L_HandTarget.transform.position = L_HandTargetFollow.transform.position;
+            R_HandTarget.transform.position = R_HandTargetFollow.transform.position;
+        }
+        else
+        {
+            AnimateSine(L_HandTarget, L_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 1f, 0.1f);
+            AnimateSine(R_HandTarget, R_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 1f, 0.1f);
+        }
         elapsedTime += Time.deltaTime;
         L_Leg.Ellipsoid.speed = -Speed*SpeedMultiplier;
         R_Leg.Ellipsoid.speed = -Speed*SpeedMultiplier;

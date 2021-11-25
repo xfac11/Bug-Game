@@ -7,12 +7,16 @@ public class GunSwitcher : MonoBehaviour
 {
     [SerializeField] private GameObject FirstGun;
     [SerializeField] private GameObject SecondGun;
+    private GameObject _currentWeapon;
+    private int _gunNumber;
     public Action<GameObject> GunSwitch;
     void Start()
     {
         SecondGun.GetComponent<Gun>().Shooting += CameraShaking; 
-        FirstGun.SetActive(true);
+        FirstGun.SetActive(false);
         SecondGun.SetActive(false);
+        _currentWeapon = FirstGun;
+        _gunNumber = 1;
     }
 
     private void CameraShaking()
@@ -25,18 +29,40 @@ public class GunSwitcher : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            if(FirstGun.activeSelf)
+            if(_gunNumber  == 1)
+            {
+                _gunNumber = 2;
+                _currentWeapon = SecondGun;
+                GunSwitch?.Invoke(_currentWeapon);
+
+            }
+            else if(_gunNumber == 2)
+            {
+                _gunNumber = 1;
+                _currentWeapon = FirstGun;
+                GunSwitch?.Invoke(_currentWeapon);
+
+            }
+        }
+        if(Input.GetMouseButtonDown(1))
+        {
+        }
+        if (Input.GetMouseButton(1))
+        {
+            _currentWeapon.SetActive(true);
+            if(_gunNumber == 1)
+            {
+                SecondGun.SetActive(false);
+            }
+            else if(_gunNumber == 2)
             {
                 FirstGun.SetActive(false);
-                SecondGun.SetActive(true);
-                GunSwitch?.Invoke(SecondGun);
             }
-            else
-            {
-                FirstGun.SetActive(true);
-                SecondGun.SetActive(false);
-                GunSwitch?.Invoke(FirstGun);
-            }
+        }
+        else
+        {
+            FirstGun.SetActive(false);
+            SecondGun.SetActive(false);
         }
     }
 }

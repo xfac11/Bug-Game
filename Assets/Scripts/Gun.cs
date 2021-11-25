@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
     [SerializeField] private int MaxAmmo = 20;
     [SerializeField] private GameObject RHandPos;
     [SerializeField] private GameObject LHandPos;
+    [SerializeField] private Sprite Image;
     public Camera TheCamera;
     public LayerMask LayerMask;
     public float Range = 20.0f;
@@ -57,6 +59,10 @@ public class Gun : MonoBehaviour
         {
             return LHandPos;
         }
+    }
+    public Sprite GetImage()
+    {
+        return Image;
     }
     private void Start()
     {
