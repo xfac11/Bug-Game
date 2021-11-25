@@ -117,9 +117,12 @@ public class Gun : MonoBehaviour
             _spraying = false;
             MussleParticles.Stop();
             AudioSource audioSource = GetComponent<AudioSource>();
-            if(audioFadeCorutine != null)
-                StopCoroutine(audioFadeCorutine);
-            audioFadeCorutine = StartCoroutine(FadeAudioSource.StartFade(audioSource, 0.5f, 0f, true));
+            if(IsSpray)
+            {
+                if (audioFadeCorutine != null)
+                    StopCoroutine(audioFadeCorutine);
+                audioFadeCorutine = StartCoroutine(FadeAudioSource.StartFade(audioSource, 0.5f, 0f, true));
+            }
         }
     }
 

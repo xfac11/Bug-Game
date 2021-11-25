@@ -39,7 +39,7 @@ public class PlayerHealth : MonoBehaviour,ITarget
 
     private void CameraShake()
     {
-        GetComponent<ThirdPersonAim>().CameraShake(1, 0.5f);
+        GetComponent<ThirdPersonAim>().CameraShake(0.1f, 2f);
     }
 
     // Start is called before the first frame update
