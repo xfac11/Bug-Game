@@ -12,6 +12,7 @@ public class ProceduralHumanAnimation : MonoBehaviour
     [SerializeField] private GameObject R_HandTarget;
     private Vector3 L_HandTargetDefault;
     private Vector3 R_HandTargetDefault;
+    private Vector3 BodyDefault;
     private GameObject L_HandTargetFollow;
     private GameObject R_HandTargetFollow;
     public Vector3 Velocity;
@@ -34,7 +35,7 @@ public class ProceduralHumanAnimation : MonoBehaviour
         legQueue = new Queue<ProceduralHumanLeg>();
         legQueue.Enqueue(L_Leg);
         legQueue.Enqueue(R_Leg);
-        
+        BodyDefault = body.transform.localPosition;
     }
 
     private void ChangeHands(GameObject obj)
@@ -85,7 +86,7 @@ public class ProceduralHumanAnimation : MonoBehaviour
             L_Leg.FollowEllipsoid = true;
             R_Leg.FollowEllipsoid = true;
         }
-        body.transform.position = new Vector3(body.transform.position.x, body.transform.position.y + body.transform.position.y * Time.deltaTime*Speed * Mathf.Sin(Time.time*10.0f)*0.01f, body.transform.position.z);
+        //body.transform.position = new Vector3(body.transform.position.x, body.transform.position.y + body.transform.position.y * Time.deltaTime*Speed * Mathf.Sin(Time.time*10.0f)*0.1f, body.transform.position.z);
         //if(Speed == 0)
         //{//Idle
         //    AnimateSine(L_HandTarget, L_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 1f, 0.1f);
@@ -95,6 +96,10 @@ public class ProceduralHumanAnimation : MonoBehaviour
         //{//Walk
         //    AnimateSine(L_HandTarget, L_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 10f, 0.5f);
         //    AnimateSine(R_HandTarget, R_HandTargetDefault, new Vector3(0f, -0.5f, -1f), 10f, 0.5f);
+        //}
+        //if(Input.GetKeyUp(KeyCode.LeftShift))
+        //{
+        //    body.transform.localPosition = BodyDefault;
         //}
     }
 
