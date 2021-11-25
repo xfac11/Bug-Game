@@ -6,6 +6,8 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     [SerializeField] private int MaxAmmo = 20;
+    [SerializeField] private GameObject RHandPos;
+    [SerializeField] private GameObject LHandPos;
     public Camera TheCamera;
     public LayerMask LayerMask;
     public float Range = 20.0f;
@@ -42,7 +44,20 @@ public class Gun : MonoBehaviour
             return MaxAmmo;
         }
     }
-
+    public GameObject RightHandPosition
+    {
+        get
+        {
+            return RHandPos;
+        }
+    }
+    public GameObject LeftHandPosition
+    {
+        get
+        {
+            return LHandPos;
+        }
+    }
     private void Start()
     {
         _ammo = MaxAmmo;

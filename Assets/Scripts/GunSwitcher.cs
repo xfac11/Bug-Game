@@ -7,7 +7,7 @@ public class GunSwitcher : MonoBehaviour
 {
     [SerializeField] private GameObject FirstGun;
     [SerializeField] private GameObject SecondGun;
-
+    public Action<GameObject> GunSwitch;
     void Start()
     {
         SecondGun.GetComponent<Gun>().Shooting += CameraShaking; 
@@ -29,11 +29,13 @@ public class GunSwitcher : MonoBehaviour
             {
                 FirstGun.SetActive(false);
                 SecondGun.SetActive(true);
+                GunSwitch?.Invoke(SecondGun);
             }
             else
             {
                 FirstGun.SetActive(true);
                 SecondGun.SetActive(false);
+                GunSwitch?.Invoke(FirstGun);
             }
         }
     }

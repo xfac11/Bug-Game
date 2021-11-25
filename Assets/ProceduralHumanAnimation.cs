@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public class ProceduralHumanAnimation : MonoBehaviour
     [SerializeField] private GameObject R_HandTarget;
     private Vector3 L_HandTargetDefault;
     private Vector3 R_HandTargetDefault;
+    private GameObject L_HandTargetFollow;
+    private GameObject R_HandTargetFollow;
     public Vector3 Velocity;
     public float Speed;
     public float SpeedMultiplier = 1.0f;
@@ -20,9 +23,10 @@ public class ProceduralHumanAnimation : MonoBehaviour
     private Queue<ProceduralHumanLeg> legQueue;
     private ProceduralHumanLeg _currentMovingLeg;
     private float elapsedTime;
-
+    [SerializeField] private GunSwitcher GunSwitcher;
     private void Awake()
     {
+        GunSwitcher.GunSwitch += ChangeHands;
         L_HandTargetDefault = L_HandTarget.transform.localPosition;
         R_HandTargetDefault = R_HandTarget.transform.localPosition;
         previousPosition = transform.position;
@@ -30,11 +34,23 @@ public class ProceduralHumanAnimation : MonoBehaviour
         legQueue = new Queue<ProceduralHumanLeg>();
         legQueue.Enqueue(L_Leg);
         legQueue.Enqueue(R_Leg);
+        
+    }
+
+    private void ChangeHands(GameObject obj)
+    {
+        L_HandTargetFollow = obj.GetComponent<Gun>().LeftHandPosition;
+        R_HandTargetFollow = obj.GetComponent<Gun>().RightHandPosition;
+    }
+
+    private void Start()
+    {
         L_Leg.Ellipsoid.UseSpeed = true;
         R_Leg.Ellipsoid.UseSpeed = true;
     }
     private void FixedUpdate()
     {
+        
         float time = Time.fixedDeltaTime;
         currentPositon = transform.position;
         float distance = Vector3.Distance(currentPositon, previousPosition);
@@ -46,6 +62,9 @@ public class ProceduralHumanAnimation : MonoBehaviour
     }
     private void Update()
     {
+        L_HandTarget.transform.position = L_HandTargetFollow.transform.position;
+        R_HandTarget.transform.position = R_HandTargetFollow.transform.position;
+
         elapsedTime += Time.deltaTime;
         L_Leg.Ellipsoid.speed = -Speed*SpeedMultiplier;
         R_Leg.Ellipsoid.speed = -Speed*SpeedMultiplier;
@@ -60,16 +79,16 @@ public class ProceduralHumanAnimation : MonoBehaviour
             R_Leg.FollowEllipsoid = true;
         }
         body.transform.position = new Vector3(body.transform.position.x, body.transform.position.y + body.transform.position.y * Time.deltaTime*Speed * Mathf.Sin(Time.time*10.0f)*0.01f, body.transform.position.z);
-        if(Speed == 0)
-        {//Idle
-            AnimateSine(L_HandTarget, L_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 1f, 0.1f);
-            AnimateSine(R_HandTarget, R_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 1f, 0.1f);
-        }
-        else
-        {//Walk
-            AnimateSine(L_HandTarget, L_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 10f, 0.5f);
-            AnimateSine(R_HandTarget, R_HandTargetDefault, new Vector3(0f, -0.5f, -1f), 10f, 0.5f);
-        }
+        //if(Speed == 0)
+        //{//Idle
+        //    AnimateSine(L_HandTarget, L_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 1f, 0.1f);
+        //    AnimateSine(R_HandTarget, R_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 1f, 0.1f);
+        //}
+        //else
+        //{//Walk
+        //    AnimateSine(L_HandTarget, L_HandTargetDefault, new Vector3(0f, 0.5f, 1f), 10f, 0.5f);
+        //    AnimateSine(R_HandTarget, R_HandTargetDefault, new Vector3(0f, -0.5f, -1f), 10f, 0.5f);
+        //}
     }
 
     private bool IsCloseToGround(out RaycastHit hitInfo, Vector3 position)
