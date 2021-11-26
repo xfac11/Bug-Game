@@ -21,24 +21,29 @@ public class AmmoAttract : MonoBehaviour
     {
         AmmoPack = new List<Ammo>();
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnEnable()
     {
-        if(other.CompareTag("Ammo"))
+        FindObjectOfType<BugObjHandler>().AmmoSpawnEvent += AddAmmoToAttract;
+    }
+    private void OnDisable()
+    {
+        FindObjectOfType<BugObjHandler>().AmmoSpawnEvent -= AddAmmoToAttract;
+    }
+    private void AddAmmoToAttract(GameObject ammoObject)
+    {
+        Ammo ammo = new Ammo
         {
-            Ammo ammo = new Ammo
+            isMoving = true,
+            theAmmoObject = ammoObject
+        };
+        foreach (var item in AmmoPack)
+        {
+            if(item.theAmmoObject.gameObject.GetInstanceID() == ammo.theAmmoObject.GetInstanceID())
             {
-                isMoving = true,
-                theAmmoObject = other.gameObject
-            };
-            foreach (var item in AmmoPack)
-            {
-                if(item.theAmmoObject.gameObject.GetInstanceID() == ammo.theAmmoObject.GetInstanceID())
-                {
-                    return;
-                }
+                return;
             }
-            AmmoPack.Add(ammo);
         }
+        AmmoPack.Add(ammo);
     }
     private void Update()
     {

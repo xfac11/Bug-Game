@@ -592,13 +592,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Damage: 10
   Player: {fileID: 0}
-  Speed: 10
+  Speed: 5
   RotationSpeed: 5
   RotationSmoothTime: 0.1
   HitPs: {fileID: 1408584620761355550, guid: 5bab7ca95e3a11c4baa6f685ed68d71e, type: 3}
   BitePs: {fileID: 1408584620761355550, guid: d5ebd9049df377444b4ca846e9fc4a3f, type: 3}
   DamageRange: 2
-  AttackRate: 1
+  AttackRate: 5
   Body: {fileID: 3089260697414637625}
 --- !u!65 &6583603548934488132
 BoxCollider:

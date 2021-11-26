@@ -7,6 +7,7 @@ public class BugObjHandler : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private GameObject Ammo;
+    public Action<GameObject> AmmoSpawnEvent;
     void Start()
     {
         foreach (var item in FindObjectsOfType<BuggedObject>())
@@ -19,6 +20,6 @@ public class BugObjHandler : MonoBehaviour
     {
         GameObject newAmmo = Instantiate(Ammo);
         newAmmo.transform.position = gameObject.transform.position;
-
+        AmmoSpawnEvent?.Invoke(newAmmo);
     }
 }

@@ -5591,33 +5591,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 269903904672933813, guid: 132ca62671b198e458abe8ec0d99c12e,
         type: 3}
-      propertyPath: Speed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 269903904672933813, guid: 132ca62671b198e458abe8ec0d99c12e,
-        type: 3}
       propertyPath: Player
       value: 
       objectReference: {fileID: 1165736009}
-    - target: {fileID: 269903904672933813, guid: 132ca62671b198e458abe8ec0d99c12e,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 269903904672933813, guid: 132ca62671b198e458abe8ec0d99c12e,
-        type: 3}
-      propertyPath: AttackRate
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2279829578067304250, guid: 132ca62671b198e458abe8ec0d99c12e,
         type: 3}
       propertyPath: m_Name
       value: AgentBug (3)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2279829578067304250, guid: 132ca62671b198e458abe8ec0d99c12e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2279829578067304253, guid: 132ca62671b198e458abe8ec0d99c12e,
         type: 3}
@@ -6932,6 +6912,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7582595584288765406, guid: 48515fb3f5ce69e41a0110275ace8599,
+        type: 3}
+      propertyPath: Distance
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8070507524445481170, guid: 48515fb3f5ce69e41a0110275ace8599,
         type: 3}

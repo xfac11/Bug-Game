@@ -60,6 +60,10 @@ public class AIEnemy : MonoBehaviour, ITarget
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        if(Player == null)
+        {
+            Player = FindObjectOfType<PlayerHealth>().transform;
+        }
         _playerTarget = Player.GetComponent<ITarget>();
     }
     private void FixedUpdate()
