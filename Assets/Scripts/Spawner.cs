@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,7 +12,8 @@ public class Spawner : MonoBehaviour
     /// </summary>
     [SerializeField] private float SpawnRate;
     [SerializeField] private GameObject SpawnerEffect;
-    public bool DestroyOnFinish = false;
+    public Action<GameObject> OnFinish;
+    public AIEnemy.EnemyStats EnemyStats;
     public void SetEnemiesToSpawn(int enemiesToSpawn)
     {
         EnemiesToSpawn = enemiesToSpawn;
@@ -31,12 +33,10 @@ public class Spawner : MonoBehaviour
             GameObject spawnedEnemy = Instantiate(Enemy);
             spawnedEnemy.transform.position = new Vector3(transform.position.x, 1.167f, transform.position.z);//TODO: Fix position in y for the bugs. Maybe some type of gravity instead of hardcoded
             EnemiesToSpawn--;
+            spawnedEnemy.GetComponent<AIEnemy>().SetEnemyStats(EnemyStats);
             yield return new WaitForSeconds(SpawnRate);
         }
-        if(DestroyOnFinish)
-        {
-            Destroy(gameObject);
-        }
+        OnFinish?.Invoke(gameObject);
     }
     private void Start()
     {

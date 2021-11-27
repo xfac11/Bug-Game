@@ -9,12 +9,27 @@ public class CrossairControl : MonoBehaviour
 
     [SerializeField] private GameObject AimedCrossAir;
     [SerializeField] private GameObject NormalCrossAir;
+    [SerializeField] private GameObject HitMark;
     // Start is called before the first frame update
     private void OnEnable()
     {
+        AIEnemy.OnHit += HitEnemy;
         ThirdPersonAim.Aimed += DisplayCrossAir;
         ThirdPersonAim.NoAim += DisplayNormalCrossAir;
     }
+
+    private void HitEnemy()
+    {
+        StartCoroutine(ShowHitMark());
+    }
+
+    private IEnumerator ShowHitMark()
+    {
+        HitMark.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        HitMark.SetActive(false);
+    }
+
     private void OnDisable()
     {
         ThirdPersonAim.Aimed -= DisplayCrossAir;

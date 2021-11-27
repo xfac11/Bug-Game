@@ -43,6 +43,7 @@ public class BuggedObject : MonoBehaviour,ITarget
         //Use to scoring, ammo etc.
         Fixed?.Invoke(gameObject);
         _fixed = true;
+        
     }
 
     // Start is called before the first frame update

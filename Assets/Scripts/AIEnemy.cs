@@ -5,6 +5,15 @@ using UnityEngine;
 
 public class AIEnemy : MonoBehaviour, ITarget
 {
+    //TODO: Change this to be a scriptableobject
+    [Serializable]public struct EnemyStats
+    {
+        public int Damage;
+        public float Speed;
+        public float DamageRange;
+        public float AttackRate;
+        public int Health;
+    }
     [SerializeField] private int Damage = 10;
     [SerializeField] private Transform Player;
     [SerializeField] private float Speed = 5.0f;
@@ -21,10 +30,12 @@ public class AIEnemy : MonoBehaviour, ITarget
     private Vector3 _currentRotaion;
     private Vector3 _direction;
     private int _health = 100;
+    private int _maxHealth = 100;
     private bool IsDead = false;
     private Rigidbody _rigidbody;
     private ITarget _playerTarget;
-
+    static public Action OnDeath;
+    static public Action OnHit;
     private void Update()
     {
         if(Player != null)
@@ -118,15 +129,17 @@ public class AIEnemy : MonoBehaviour, ITarget
     void ITarget.Damage(int damage)
     {
         _health -= damage;
+        OnHit?.Invoke();
         Destroy(Instantiate(HitPs,transform.position,Quaternion.identity), 2f);
         if(_health <= 0)
         {
-            _health = 100;
+            _health = _maxHealth;
             IsDead = true;
             _rigidbody.isKinematic = true;
 
             LeanTween.rotate(gameObject, new Vector3(0, 0, 180), 1f);
             Destroy(gameObject,2f);
+            OnDeath?.Invoke();
         }
     }
 
@@ -137,5 +150,13 @@ public class AIEnemy : MonoBehaviour, ITarget
         Gizmos.DrawWireSphere(transform.position, DamageRange);
     }
 #endif
+    public void SetEnemyStats(EnemyStats stats)
+    {
+        Speed = stats.Speed;
+        Damage = stats.Damage;
+        DamageRange = stats.DamageRange;
+        AttackRate = stats.AttackRate;
+        _health = stats.Health;
+    }
 
 }

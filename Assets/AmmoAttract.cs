@@ -25,10 +25,6 @@ public class AmmoAttract : MonoBehaviour
     {
         FindObjectOfType<BugObjHandler>().AmmoSpawnEvent += AddAmmoToAttract;
     }
-    private void OnDisable()
-    {
-        FindObjectOfType<BugObjHandler>().AmmoSpawnEvent -= AddAmmoToAttract;
-    }
     private void AddAmmoToAttract(GameObject ammoObject)
     {
         Ammo ammo = new Ammo
