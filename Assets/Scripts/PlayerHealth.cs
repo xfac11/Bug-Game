@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour,ITarget
 {
     [SerializeField] private int MaxHealth = 100;
     private int _health = 100;
+    private Bug.Controls.ThirdPersonMovement _thirdPersonMovement;
     public int Health
     {
         get
@@ -23,6 +24,7 @@ public class PlayerHealth : MonoBehaviour,ITarget
     }
     public void Damage(int damage)
     {
+        _thirdPersonMovement.Stun(0.2f);
         _health -= damage;
         CameraShake();
         DamageHit();
@@ -39,18 +41,13 @@ public class PlayerHealth : MonoBehaviour,ITarget
 
     private void CameraShake()
     {
-        GetComponent<ThirdPersonAim>().CameraShake(0.1f, 2f);
+        GetComponent<ThirdPersonAim>().CameraShake(0.3f, 3f);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         _health = MaxHealth;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _thirdPersonMovement = GetComponent<Bug.Controls.ThirdPersonMovement>();
     }
 }

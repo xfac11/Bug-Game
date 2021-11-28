@@ -51,5 +51,11 @@ public class BuggedObject : MonoBehaviour,ITarget
     {
         _defaultMaxMin = DissolveEditor.MaxMinPosition;
         _health = Maxhealth;
+        float healthf = _health;
+
+        float newMax = Mathf.Lerp(1f, _defaultMaxMin.x, healthf / Maxhealth);
+        float newMin = Mathf.Lerp(1f, _defaultMaxMin.y, healthf / Maxhealth);
+        DissolveEditor.MaxMinPosition = new Vector2(newMax, newMin);
+
     }
 }

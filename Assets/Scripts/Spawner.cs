@@ -31,7 +31,7 @@ public class Spawner : MonoBehaviour
         while(EnemiesToSpawn > 0)
         {
             GameObject spawnedEnemy = Instantiate(Enemy);
-            spawnedEnemy.transform.position = new Vector3(transform.position.x, 1.167f, transform.position.z);//TODO: Fix position in y for the bugs. Maybe some type of gravity instead of hardcoded
+            spawnedEnemy.transform.position = new Vector3(transform.position.x, UnityEngine.Random.Range(0.5f,1f), transform.position.z);//TODO: Fix position in y for the bugs. Maybe some type of gravity instead of hardcoded
             EnemiesToSpawn--;
             spawnedEnemy.GetComponent<AIEnemy>().SetEnemyStats(EnemyStats);
             yield return new WaitForSeconds(SpawnRate);

@@ -10,6 +10,7 @@ public class AmmoUI : MonoBehaviour
     [SerializeField] private GunSwitcher GunSwitcher;
     private GameObject _gun;
     private TMP_Text Text;
+    [SerializeField] Image GunImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +21,7 @@ public class AmmoUI : MonoBehaviour
     private void UpdateAmmoText(GameObject obj)
     {
         _gun = obj;
-        GetComponentInParent<Image>().sprite = obj.GetComponent<Gun>().GetImage();
+        GunImage.sprite = obj.GetComponent<Gun>().GetImage();
     }
     private void Update()
     {

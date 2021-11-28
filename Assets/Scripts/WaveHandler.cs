@@ -10,7 +10,10 @@ public class WaveHandler : MonoBehaviour
         public Transform Transform;
         public bool Used;
     }
-    public Action<int> OnNewWave;
+    /// <summary>
+    /// Wavenumber, Difficulty
+    /// </summary>
+    public Action<int,int> OnNewWave;
     public Action OnWaveFinished;
     public Action<int> OnDeath;
     [SerializeField] private GameObject SpawnerPrefab;
@@ -18,7 +21,8 @@ public class WaveHandler : MonoBehaviour
     [SerializeField] private int WaveNumber;
     [SerializeField] private int TimeBetweenWaves;
     [SerializeField] private List<AIEnemy.EnemyStats> EnemyStats;
-    [SerializeField] private List<SpawnerLocation> PlacesToSpawn;
+    [SerializeField] private Transform PlacesToSpawnParent;
+    private List<SpawnerLocation> PlacesToSpawn;
     private List<int> _availableLocations;
     [SerializeField] private int Randomize;
     private int _numberOfEnemies = 0;
@@ -40,6 +44,16 @@ public class WaveHandler : MonoBehaviour
     private void Awake()
     {
         _availableLocations = new List<int>();
+        PlacesToSpawn = new List<SpawnerLocation>();
+        foreach (var item in PlacesToSpawnParent.GetComponentsInChildren<Transform>())
+        {
+            SpawnerLocation spawnerLocation = new SpawnerLocation
+            {
+                Transform = item,
+                Used = false
+            };
+            PlacesToSpawn.Add(spawnerLocation);
+        }
         for (int i = 0; i < PlacesToSpawn.Count; i++)
         {
             _availableLocations.Add(i);
@@ -62,11 +76,12 @@ public class WaveHandler : MonoBehaviour
     private void EnemyDied()
     {
         _currentEnemies--;
+        Debug.Log("Enemy died. " + _currentEnemies + " enemies Left");
         OnDeath?.Invoke(_currentEnemies);//To update the UI. If there are 10 enemies left the UI will display that.
         if(_currentEnemies == 0)
         {
-            OnWaveFinished?.Invoke();
             StartCoroutine(CountdownToNextWave());
+            OnWaveFinished?.Invoke();
         }
     }
 
@@ -97,7 +112,10 @@ public class WaveHandler : MonoBehaviour
         _numberOfEnemies = enemies;
         _numberOfSpawners = spawners;
 
-        OnNewWave?.Invoke(WaveNumber);
+        Debug.Log("Number of enemies:" + _numberOfEnemies);
+        Debug.Log("Number of spawners:" + _numberOfSpawners);
+
+        OnNewWave?.Invoke(WaveNumber,Difficulty);
 
         StartCoroutine(StartSpawning());
     }

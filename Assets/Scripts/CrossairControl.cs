@@ -26,7 +26,7 @@ public class CrossairControl : MonoBehaviour
     private IEnumerator ShowHitMark()
     {
         HitMark.SetActive(true);
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         HitMark.SetActive(false);
     }
 

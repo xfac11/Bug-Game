@@ -23,7 +23,7 @@ public class AmmoAttract : MonoBehaviour
     }
     private void OnEnable()
     {
-        FindObjectOfType<BugObjHandler>().AmmoSpawnEvent += AddAmmoToAttract;
+        FindObjectOfType<BugCreator>().AmmoSpawnEvent += AddAmmoToAttract;
     }
     private void AddAmmoToAttract(GameObject ammoObject)
     {

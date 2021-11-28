@@ -74,13 +74,15 @@ public class AIEnemy : MonoBehaviour, ITarget
         if(Player == null)
         {
             Player = FindObjectOfType<PlayerHealth>().transform;
+            if (Player == null)
+                return;
         }
         _playerTarget = Player.GetComponent<ITarget>();
     }
     private void FixedUpdate()
     {
         //Dont move when dead or attacking
-        if(IsDead || _attackTime > 0)
+        if(IsDead || _attackTime > 0 || Player == null)
         {
             _rigidbody.velocity = Vector3.zero;
         }
@@ -128,6 +130,10 @@ public class AIEnemy : MonoBehaviour, ITarget
 
     void ITarget.Damage(int damage)
     {
+        if(IsDead)
+        {
+            return;
+        }
         _health -= damage;
         OnHit?.Invoke();
         Destroy(Instantiate(HitPs,transform.position,Quaternion.identity), 2f);
