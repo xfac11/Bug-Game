@@ -106,8 +106,8 @@ public class WaveHandler : MonoBehaviour
             Difficulty++;
         }
         WaveNumber++;
-        int spawners = (int)(Mathf.Pow(WaveNumber, 2) * 0.2f) + 1;
-        int enemies = (int)(Mathf.Pow(spawners, 0.5f) * 2) + 1;
+        int spawners = Mathf.Min((int)(Mathf.Pow(WaveNumber, 2) * 0.2f) + 1, 5);
+        int enemies = Mathf.Min((int)(Mathf.Pow(spawners, 0.5f) * 2) + 1, 10);
 
         _numberOfEnemies = enemies;
         _numberOfSpawners = spawners;
@@ -164,7 +164,6 @@ public class WaveHandler : MonoBehaviour
 
     private Vector3 GetRandomPosition()
     {
-        Debug.Log(_availableLocations.Count,gameObject);
         int randomIndex = UnityEngine.Random.Range(0, _availableLocations.Count);
         int placesToSpawnIndex = _availableLocations[randomIndex];
         _availableLocations.RemoveAt(randomIndex);

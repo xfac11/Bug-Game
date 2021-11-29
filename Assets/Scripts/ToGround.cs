@@ -21,6 +21,7 @@ public class ToGround : MonoBehaviour
     public Transform GroundedPoint;
     private Vector3 oldPos;
     private Vector3 oldGrounded;
+    private Transform _transform;
 
     public float MaxTime = 1.0f;
     public bool ShouldStuck
@@ -32,41 +33,42 @@ public class ToGround : MonoBehaviour
     }
     void Start()
     {
+        _transform = transform;
         _oppositeLeg = OppositeLeg.GetComponent<ToGround>();
-        Vector3 position = transform.position;
+        Vector3 position = _transform.position;
         Vector3 direction = Vector3.down;
         if(UseNearestGroundPoint)
         {
-            if(Physics.Raycast(position, direction,out RaycastHit hit, 100.0f, LayerMask))
+            if(Physics.Raycast(position, direction,out RaycastHit hit, 5f, LayerMask))
             {
                 stuckPosition = hit.point;
             }
-            Debug.Log("no hit");
         }
         else
         {
-            stuckPosition = new Vector3(transform.position.x, Ground.position.y, transform.position.z);
+            stuckPosition = new Vector3(position.x, Ground.position.y, position.z);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Vector3 myPos = _transform.position;
         if(_shouldStuck)
         {
             if (UseNearestGroundPoint)
             {
-                transform.position = stuckPosition;
+                _transform.position = stuckPosition;
             }
             else
             {
-                Vector3 vector = new Vector3(transform.position.x, Ground.position.y, transform.position.z);
-                transform.position = vector;
+                Vector3 vector = new Vector3(myPos.x, Ground.position.y, myPos.z);
+                _transform.position = vector;
             }
-            if (Vector3.Distance(transform.position, GroundedPoint.position) >= Distance && _oppositeLeg.ShouldStuck)
+            if (Vector3.Distance(myPos, GroundedPoint.position) >= Distance && _oppositeLeg.ShouldStuck)
             {
                 _shouldStuck = false;
-                oldPos = transform.position;
+                oldPos = _transform.position;
                 oldGrounded = GroundedPoint.position;
                 //Move to GroundedPoint
             }
@@ -75,7 +77,7 @@ public class ToGround : MonoBehaviour
         {
             Vector3 newPosition = Vector3.Lerp(oldPos, GroundedPoint.position, time/MaxTime);
             newPosition.y += Mathf.PingPong(2 * time / MaxTime, 1) * StepHeight;
-            transform.position = newPosition;
+            _transform.position = newPosition;
             time += Time.deltaTime;
             if(time >= MaxTime)
             {
