@@ -26,6 +26,7 @@ public class Gun : MonoBehaviour
     public bool DamageEnemies = true;
     Coroutine audioFadeCorutine;
     public Action Shooting;
+    private AudioSource _audioSource;
     public int Ammo
     {
         get
@@ -67,6 +68,7 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         _ammo = MaxAmmo;
+        _audioSource = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update()
@@ -81,8 +83,8 @@ public class Gun : MonoBehaviour
             {
                 _spraying = true;
                 MussleFlare();
-                GetComponent<AudioSource>().Play();
-                GetComponent<AudioSource>().volume = 1;
+                _audioSource.Play();
+                _audioSource.volume = 1;
             }
             _time += Time.deltaTime;
             if(_time >= AttackRate || Input.GetMouseButtonDown(0))
@@ -106,8 +108,8 @@ public class Gun : MonoBehaviour
                 }
                 if (!IsSpray)
                 {
-                    GetComponent<AudioSource>().Play();
-                    GetComponent<AudioSource>().volume = 1;
+                    _audioSource.Play();
+                    _audioSource.volume = 1;
                     MussleFlare();
                 }
                 _time = 0.0f;
@@ -118,12 +120,11 @@ public class Gun : MonoBehaviour
         {
             _spraying = false;
             MussleParticles.Stop();
-            AudioSource audioSource = GetComponent<AudioSource>();
-            if(IsSpray)
+            if (IsSpray)
             {
                 if (audioFadeCorutine != null)
                     StopCoroutine(audioFadeCorutine);
-                audioFadeCorutine = StartCoroutine(FadeAudioSource.StartFade(audioSource, 0.5f, 0f, true));
+                audioFadeCorutine = StartCoroutine(FadeAudioSource.StartFade(_audioSource, 0.5f, 0f, true));
             }
         }
     }

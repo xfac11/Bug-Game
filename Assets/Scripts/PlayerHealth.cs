@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour,ITarget
     private int _health = 100;
     private Bug.Controls.ThirdPersonMovement _thirdPersonMovement;
     public UnityEvent PlayerDead;
+    private ThirdPersonAim _thirdPersonAim;
     public int Health
     {
         get
@@ -44,7 +45,7 @@ public class PlayerHealth : MonoBehaviour,ITarget
 
     private void CameraShake()
     {
-        GetComponent<ThirdPersonAim>().CameraShake(0.3f, 3f);
+        _thirdPersonAim.CameraShake(0.3f, 3f);
     }
 
     // Start is called before the first frame update
@@ -52,5 +53,6 @@ public class PlayerHealth : MonoBehaviour,ITarget
     {
         _health = MaxHealth;
         _thirdPersonMovement = GetComponent<Bug.Controls.ThirdPersonMovement>();
+        _thirdPersonAim = GetComponent<ThirdPersonAim>();
     }
 }

@@ -7,6 +7,11 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private GameObject PauseMenuPanel;
     [SerializeField] private float TimeToPopUp;
+    private MenuController _menuController;
+    private void Awake()
+    {
+        _menuController = PauseMenuPanel.GetComponent<MenuController>();
+    }
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
@@ -28,14 +33,14 @@ public class PauseMenu : MonoBehaviour
     }
     public void Resume()
     {
-        PauseMenuPanel.GetComponent<MenuController>().SetActive(false, TimeToPopUp);
+        _menuController.SetActive(false, TimeToPopUp);
         Time.timeScale = 1;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
     public void Pause()
     {
-        PauseMenuPanel.GetComponent<MenuController>().SetActive(true, TimeToPopUp);
+        _menuController.SetActive(true, TimeToPopUp);
         StartCoroutine(DelayPauseResume(0, TimeToPopUp));
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;

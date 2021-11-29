@@ -14,7 +14,13 @@ public class ThirdPersonAim : MonoBehaviour
     public float NormalFOV = 40f;
     public float AimedFOV = 20f;
     public float duration = 1.0f;
-    private float timer = 0.0f;
+    private float _timer = 0.0f;
+    private CinemachineBasicMultiChannelPerlin _cinemachineBasicMultiChannelPerlin;
+
+    private void Awake()
+    {
+        _cinemachineBasicMultiChannelPerlin = ThirdPersonCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+    }
     private void Update()
     {
         if (Time.timeScale == 0)
@@ -41,23 +47,19 @@ public class ThirdPersonAim : MonoBehaviour
             //StopAllCoroutines();
             //StartCoroutine(ChangeFOV(NormalFOV));
         }
-        if(timer > 0)
+        if(_timer > 0)
         {
-            timer -= Time.deltaTime;
-            if(timer <= 0f)
+            _timer -= Time.deltaTime;
+            if(_timer <= 0f)
             {
-                CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = ThirdPersonCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-                cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0.0f;
+                _cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = 0.0f;
             }
         }
     }
     public void CameraShake(float time, float amplitudeGain)
     {
-        CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = ThirdPersonCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
-
-        cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = amplitudeGain;
-        timer = time;
+        _cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = amplitudeGain;
+        _timer = time;
     }
     private void ActivateAim()
     {

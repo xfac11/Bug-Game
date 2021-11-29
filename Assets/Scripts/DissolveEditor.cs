@@ -14,6 +14,12 @@ public class DissolveEditor : MonoBehaviour
     static readonly int shPropMaxMin = Shader.PropertyToID(_MaxMinDistStr);
 
     private MaterialPropertyBlock _mbp;
+    private MeshRenderer _meshRenderer;
+
+    private void Awake()
+    {
+        _meshRenderer = GetComponent<MeshRenderer>();
+    }
     public MaterialPropertyBlock Mbp
     {
         get
@@ -58,20 +64,20 @@ public class DissolveEditor : MonoBehaviour
 
     void ApplyDirection()
     {
-        MeshRenderer rnd = GetComponent<MeshRenderer>();
         Mbp.SetVector(shPropDirection, DirectionDis);
-        rnd.SetPropertyBlock(Mbp);
+        _meshRenderer.SetPropertyBlock(Mbp);
     }
 
     void ApplyMaxMin()
     {
-        MeshRenderer rnd = GetComponent<MeshRenderer>();
         Mbp.SetVector(shPropMaxMin, MaxMin);
-        rnd.SetPropertyBlock(Mbp);
+        _meshRenderer.SetPropertyBlock(Mbp);
     }
 
     private void OnValidate()
     {
+        if (_meshRenderer == null)
+            _meshRenderer = GetComponent<MeshRenderer>();
         ApplyDirection();
         ApplyMaxMin();
     }

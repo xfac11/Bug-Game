@@ -8,8 +8,9 @@ public class AmmoAttract : MonoBehaviour
 {
     struct Ammo
     {
-        public bool isMoving;
-        public GameObject theAmmoObject;
+        public bool IsMoving;
+        public GameObject TheAmmoObject;
+        public AmmoDesc AmmoDesc;
     }
     [SerializeField] private Gun Weapon;
     [SerializeField] private float Speed = 5.0f;
@@ -29,12 +30,13 @@ public class AmmoAttract : MonoBehaviour
     {
         Ammo ammo = new Ammo
         {
-            isMoving = true,
-            theAmmoObject = ammoObject
+            IsMoving = true,
+            TheAmmoObject = ammoObject,
+            AmmoDesc = ammoObject.GetComponent<AmmoDesc>()
         };
         foreach (var item in AmmoPack)
         {
-            if(item.theAmmoObject.gameObject.GetInstanceID() == ammo.theAmmoObject.GetInstanceID())
+            if(item.TheAmmoObject.gameObject.GetInstanceID() == ammo.TheAmmoObject.GetInstanceID())
             {
                 return;
             }
@@ -46,18 +48,18 @@ public class AmmoAttract : MonoBehaviour
         for (int i = 0; i < AmmoPack.Count; i++)
         {
             Ammo item = AmmoPack[i];
-            if (item.isMoving)
+            if (item.IsMoving)
             {
-                Vector3 direction = transform.position - item.theAmmoObject.transform.position;
+                Vector3 direction = transform.position - item.TheAmmoObject.transform.position;
                 direction.Normalize();
-                item.theAmmoObject.transform.position += direction * Speed * Time.deltaTime;
+                item.TheAmmoObject.transform.position += direction * Speed * Time.deltaTime;
             }
-            if(Vector3.Distance(item.theAmmoObject.transform.position,transform.position) < Distance)
+            if(Vector3.Distance(item.TheAmmoObject.transform.position,transform.position) < Distance)
             {
-                LTDescr lTDescr = LeanTween.scale(item.theAmmoObject, new Vector3(0, 0, 0), TimeToScaleDown);
+                LTDescr lTDescr = LeanTween.scale(item.TheAmmoObject, new Vector3(0, 0, 0), TimeToScaleDown);
                 lTDescr.setOnComplete(() => 
                 {
-                    GiveAmmo(item.theAmmoObject.GetComponent<AmmoDesc>().AmmoCount);
+                    GiveAmmo(item.AmmoDesc.AmmoCount);
                     AmmoPack.Remove(item); 
                 });
                 lTDescr.destroyOnComplete = true;

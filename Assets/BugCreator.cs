@@ -43,8 +43,9 @@ public class BugCreator : MonoBehaviour
                 {
                     //Spawn only one
                     GameObject newObject = Instantiate(BugObjectPrefab);
-                    newObject.GetComponent<BuggedObject>().Fixed += SpawnAmmo;
-                    newObject.GetComponent<BuggedObject>().Fixed += DestoryBuggedObject;
+                    BuggedObject buggedObject = newObject.GetComponent<BuggedObject>();
+                    buggedObject.Fixed += SpawnAmmo;
+                    buggedObject.Fixed += DestoryBuggedObject;
                     newObject.transform.position = GetRandomPosition();
                     newObject.transform.rotation = UnityEngine.Random.rotation;
                     _currentBuggedObjects++;
@@ -55,8 +56,9 @@ public class BugCreator : MonoBehaviour
                     for (int i = 0; i < nrOfObjectsToSpawn; i++)
                     {
                         GameObject newObject = Instantiate(BugObjectPrefab);
-                        newObject.GetComponent<BuggedObject>().Fixed += SpawnAmmo;
-                        newObject.GetComponent<BuggedObject>().Fixed += DestoryBuggedObject;
+                        BuggedObject buggedObject = newObject.GetComponent<BuggedObject>();
+                        buggedObject.Fixed += SpawnAmmo;
+                        buggedObject.Fixed += DestoryBuggedObject;
                         newObject.transform.position = GetRandomPosition();
                         newObject.transform.rotation = UnityEngine.Random.rotation;
                         _currentBuggedObjects++;

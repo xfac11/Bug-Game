@@ -10,6 +10,7 @@ public class GunSwitcher : MonoBehaviour
     private GameObject _currentWeapon;
     private int _gunNumber;
     public Action<GameObject> GunSwitch;
+    private ThirdPersonAim _thirdPersonAim;
     void Start()
     {
         SecondGun.GetComponent<Gun>().Shooting += CameraShaking; 
@@ -17,11 +18,12 @@ public class GunSwitcher : MonoBehaviour
         SecondGun.SetActive(false);
         _currentWeapon = FirstGun;
         _gunNumber = 1;
+        _thirdPersonAim = GetComponent<ThirdPersonAim>();
     }
 
     private void CameraShaking()
     {
-        GetComponent<ThirdPersonAim>().CameraShake(0.2f, 0.5f);
+        _thirdPersonAim.CameraShake(0.2f, 0.5f);
     }
 
     // Update is called once per frame

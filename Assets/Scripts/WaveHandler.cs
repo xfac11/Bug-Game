@@ -142,7 +142,7 @@ public class WaveHandler : MonoBehaviour
             }
             else
             {
-                spawner.GetComponent<Spawner>().EnemyStats = EnemyStats[EnemyStats.Count-1];
+                spawner.EnemyStats = EnemyStats[EnemyStats.Count-1];
             }
             spawner.SetEnemiesToSpawn(_numberOfEnemies);
             spawner.SetSpawnRate(4.5f);
@@ -163,7 +163,8 @@ public class WaveHandler : MonoBehaviour
     }
 
     private Vector3 GetRandomPosition()
-    {        
+    {
+        Debug.Log(_availableLocations.Count,gameObject);
         int randomIndex = UnityEngine.Random.Range(0, _availableLocations.Count);
         int placesToSpawnIndex = _availableLocations[randomIndex];
         _availableLocations.RemoveAt(randomIndex);
