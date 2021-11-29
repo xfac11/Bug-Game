@@ -38,6 +38,8 @@ namespace Bug.Controls
         }
         private void Update()
         {
+            if (Time.timeScale == 0)
+                return;
             _speed = WalkingSpeed;
             if(Input.GetKey(KeyCode.LeftShift))
             {

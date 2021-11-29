@@ -19,7 +19,6 @@ public class ProceduralHumanLeg : MonoBehaviour
         }
     }
     private Ellipsoid _ellipsoid;
-    private float _angleCollision = 0.0f;
     private bool _followEllipsoid = true;
     private Vector3 _stuckPositon;
     public Vector3 StuckPosition
@@ -81,7 +80,7 @@ public class ProceduralHumanLeg : MonoBehaviour
         }
         else
         {
-            LeanTween.move(LegTarget, DefaultFoot.transform.position, 0.1f);
+            //LeanTween.move(LegTarget, DefaultFoot.transform.position, 0.1f);
         }
     }
 

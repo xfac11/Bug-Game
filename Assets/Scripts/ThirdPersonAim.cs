@@ -17,6 +17,18 @@ public class ThirdPersonAim : MonoBehaviour
     private float timer = 0.0f;
     private void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            ThirdPersonCamera.gameObject.SetActive(false);
+            AimCamera.gameObject.SetActive(false);
+            return;
+        }
+        if(ThirdPersonCamera.gameObject.activeSelf == false)
+        {
+            ThirdPersonCamera.gameObject.SetActive(true);
+            AimCamera.gameObject.SetActive(true);
+        }
+            
         if (Input.GetMouseButtonDown(1))
         {
             //StopAllCoroutines();

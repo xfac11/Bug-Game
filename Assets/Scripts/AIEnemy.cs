@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AIEnemy : MonoBehaviour, ITarget
 {
@@ -32,8 +33,8 @@ public class AIEnemy : MonoBehaviour, ITarget
     private int _health = 100;
     private int _maxHealth = 100;
     private bool IsDead = false;
-    private Rigidbody _rigidbody;
     private ITarget _playerTarget;
+    private NavMeshAgent _navMeshAgent;
     static public Action OnDeath;
     static public Action OnHit;
     private void Update()
@@ -45,7 +46,6 @@ public class AIEnemy : MonoBehaviour, ITarget
                 StartCoroutine(AttackCooldown());
                 DealDamageToPlayer();
                 LeanTween.moveLocalZ(Body, Body.transform.localPosition.z + 0.5f, 0.1f).setLoopPingPong(1).setDelay(0.05f);
-                _rigidbody.velocity = Vector3.zero;
                 //Damage player
                 //Camera shake and things
             }
@@ -70,7 +70,7 @@ public class AIEnemy : MonoBehaviour, ITarget
     }
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
         if(Player == null)
         {
             Player = FindObjectOfType<PlayerHealth>().transform;
@@ -84,50 +84,16 @@ public class AIEnemy : MonoBehaviour, ITarget
         //Dont move when dead or attacking
         if(IsDead || _attackTime > 0 || Player == null)
         {
-            _rigidbody.velocity = Vector3.zero;
+            _navMeshAgent.isStopped = true;
         }
         else
         {
-            _direction = Player.position - transform.position;
-            _direction.y = 0.0f;
-            _rigidbody.velocity = _direction.normalized * Speed;
+            _navMeshAgent.isStopped = false;
+            _navMeshAgent.destination = Player.position;
+            _navMeshAgent.speed = Speed;
         }
         
     }
-    private void LateUpdate()
-    {
-        if(!IsDead)
-        {
-            Quaternion smoothedRotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(_direction, Vector3.up), RotationSmoothTime);
-            transform.rotation = smoothedRotation;
-        }
-    }
-    public void StartRotating()
-    {
-        if(_lookCoroutine != null)
-        {
-            StopCoroutine(_lookCoroutine);
-        }
-
-        _lookCoroutine = StartCoroutine(LookAt());
-    }
-
-    private IEnumerator LookAt()
-    {
-        Quaternion lookRotation = Quaternion.LookRotation(_direction - transform.position);
-
-        float time = 0;
-
-        while (time < 1)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
-
-            time += Time.deltaTime * RotationSpeed;
-
-            yield return null;
-        }
-    }
-
     void ITarget.Damage(int damage)
     {
         if(IsDead)
@@ -141,8 +107,6 @@ public class AIEnemy : MonoBehaviour, ITarget
         {
             _health = _maxHealth;
             IsDead = true;
-            _rigidbody.isKinematic = true;
-
             LeanTween.rotate(gameObject, new Vector3(0, 0, 180), 1f);
             Destroy(gameObject,2f);
             OnDeath?.Invoke();

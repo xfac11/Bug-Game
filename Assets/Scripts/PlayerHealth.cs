@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour,ITarget
 {
     [SerializeField] private int MaxHealth = 100;
     private int _health = 100;
     private Bug.Controls.ThirdPersonMovement _thirdPersonMovement;
+    public UnityEvent PlayerDead;
     public int Health
     {
         get
@@ -30,6 +32,7 @@ public class PlayerHealth : MonoBehaviour,ITarget
         DamageHit();
         if(_health <= 0)
         {
+            PlayerDead?.Invoke();
             Destroy(gameObject, 1f);
         }
     }

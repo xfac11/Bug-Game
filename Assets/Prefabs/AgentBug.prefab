@@ -549,7 +549,7 @@ GameObject:
   - component: {fileID: 2279829578067304253}
   - component: {fileID: 269903904672933813}
   - component: {fileID: 6583603548934488132}
-  - component: {fileID: 5235416577760755371}
+  - component: {fileID: 2472806806769346152}
   m_Layer: 10
   m_Name: AgentBug
   m_TagString: Enemy
@@ -611,24 +611,30 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7742195, y: 1, z: 2.4494781}
-  m_Center: {x: 0.020374298, y: 0, z: -0.7247391}
---- !u!54 &5235416577760755371
-Rigidbody:
+  m_Size: {x: 1.7742195, y: 2.04, z: 1.7273262}
+  m_Center: {x: 0.020374298, y: 0.43, z: 0.004781842}
+--- !u!195 &2472806806769346152
+NavMeshAgent:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2279829578067304250}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 84
-  m_CollisionDetection: 0
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.86
+  m_Speed: 3.5
+  m_Acceleration: 10
+  avoidancePriority: 50
+  m_AngularSpeed: 150
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2.08
+  m_BaseOffset: 0.62
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 1
 --- !u!1 &2279829578076653568
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,7 +723,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2279829578145484500}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.6689997, y: 0.303, z: -0.8060001}
+  m_LocalPosition: {x: 0.6689997, y: 0.303, z: -0.629}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2279829578076653571}
@@ -3123,7 +3129,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2279829579583402408}
   m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
-  m_LocalPosition: {x: -0.63099957, y: 0.303, z: -0.72300005}
+  m_LocalPosition: {x: -0.63099957, y: 0.303, z: -0.629}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2279829579530598918}

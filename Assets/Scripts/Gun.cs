@@ -71,6 +71,8 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0)
+            return;
         //This needs to be handled by animation. Holding the gun and pointing at the direction of the cameras forward.
         gameObject.transform.forward = TheCamera.transform.forward;
         if(Input.GetMouseButton(0) && (_ammo > 0 || !UseAmmo))
