@@ -112,9 +112,6 @@ public class WaveHandler : MonoBehaviour
         _numberOfEnemies = enemies;
         _numberOfSpawners = spawners;
 
-        Debug.Log("Number of enemies:" + _numberOfEnemies);
-        Debug.Log("Number of spawners:" + _numberOfSpawners);
-
         OnNewWave?.Invoke(WaveNumber,Difficulty);
 
         StartCoroutine(StartSpawning());

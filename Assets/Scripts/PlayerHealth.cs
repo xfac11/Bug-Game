@@ -7,10 +7,12 @@ using UnityEngine.Events;
 public class PlayerHealth : MonoBehaviour,ITarget
 {
     [SerializeField] private int MaxHealth = 100;
+    [SerializeField] private WaveHandler WaveHandler;
     private int _health = 100;
     private Bug.Controls.ThirdPersonMovement _thirdPersonMovement;
     public UnityEvent PlayerDead;
     private ThirdPersonAim _thirdPersonAim;
+    
     public int Health
     {
         get
@@ -54,5 +56,27 @@ public class PlayerHealth : MonoBehaviour,ITarget
         _health = MaxHealth;
         _thirdPersonMovement = GetComponent<Bug.Controls.ThirdPersonMovement>();
         _thirdPersonAim = GetComponent<ThirdPersonAim>();
+        WaveHandler.OnWaveFinished += ReplenishHealth;
+    }
+
+    private void ReplenishHealth()
+    {
+        StartCoroutine(LerpHealth(1f));
+    }
+    private IEnumerator LerpHealth(float maxTime)
+    {
+        float t = 0;
+        float time = 0;
+        float currentHealth = _health;
+        while(time < maxTime)
+        {
+            time += Time.deltaTime;
+            _health = (int)Mathf.Lerp(currentHealth, MaxHealth, time / maxTime);
+            yield return null;
+        }
+        if(_health > MaxHealth)
+        {
+            _health = MaxHealth;
+        }
     }
 }

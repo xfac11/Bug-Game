@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
+    [SerializeField]private float scale;
     public void SetActive(bool activate, float delay)
     {
         if(activate)
         {
             gameObject.SetActive(true);
-            LeanTween.scale(gameObject, new Vector3(0.5f,0.5f,1f), delay).setEaseInBounce().setEaseSpring();
+            LeanTween.scale(gameObject, new Vector3(scale,scale,1f), delay).setEaseInBounce().setEaseSpring();
         }
         else
         {

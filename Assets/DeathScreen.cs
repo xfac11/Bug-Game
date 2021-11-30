@@ -6,12 +6,12 @@ public class DeathScreen : MonoBehaviour
 {
     private void OnEnable()
     {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        ThirdPersonAim.FollowMouse = false;
         Time.timeScale = 0;
     }
     private void OnDestroy()
     {
         Time.timeScale = 1;
+        ThirdPersonAim.FollowMouse = false;
     }
 }

@@ -16,23 +16,27 @@ public class ThirdPersonAim : MonoBehaviour
     public float duration = 1.0f;
     private float _timer = 0.0f;
     private CinemachineBasicMultiChannelPerlin _cinemachineBasicMultiChannelPerlin;
-
+    static public bool FollowMouse = true;
     private void Awake()
     {
         _cinemachineBasicMultiChannelPerlin = ThirdPersonCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
     private void Update()
     {
-        if (Time.timeScale == 0)
+        if (!FollowMouse)
         {
             ThirdPersonCamera.gameObject.SetActive(false);
             AimCamera.gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
             return;
         }
         if(ThirdPersonCamera.gameObject.activeSelf == false)
         {
             ThirdPersonCamera.gameObject.SetActive(true);
             AimCamera.gameObject.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
             
         if (Input.GetMouseButtonDown(1))

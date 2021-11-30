@@ -46,6 +46,10 @@ public class Gun : MonoBehaviour
         {
             return MaxAmmo;
         }
+        set
+        {
+            MaxAmmo = value;
+        }
     }
     public GameObject RightHandPosition
     {
@@ -86,10 +90,10 @@ public class Gun : MonoBehaviour
                 _audioSource.Play();
                 _audioSource.volume = 1;
             }
-            _time += Time.deltaTime;
-            if(_time >= AttackRate || Input.GetMouseButtonDown(0))
+            
+            if(_time == 0)
             {
-
+                _time = AttackRate;
                 Shooting?.Invoke();
                 LineRenderer lr;
                 if (GunTrail != null)
@@ -112,8 +116,6 @@ public class Gun : MonoBehaviour
                     _audioSource.volume = 1;
                     MussleFlare();
                 }
-                _time = 0.0f;
-
             }
         }
         else if(Input.GetMouseButtonUp(0))
@@ -127,6 +129,10 @@ public class Gun : MonoBehaviour
                 audioFadeCorutine = StartCoroutine(FadeAudioSource.StartFade(_audioSource, 0.5f, 0f, true));
             }
         }
+
+        _time -= Time.deltaTime;
+        if (_time < 0f)
+            _time = 0f;
     }
 
     private void DamageTarget(RaycastHit hit)

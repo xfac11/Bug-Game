@@ -35,15 +35,13 @@ public class PauseMenu : MonoBehaviour
     {
         _menuController.SetActive(false, TimeToPopUp);
         Time.timeScale = 1;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        ThirdPersonAim.FollowMouse = true;
     }
     public void Pause()
     {
         _menuController.SetActive(true, TimeToPopUp);
         StartCoroutine(DelayPauseResume(0, TimeToPopUp));
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        ThirdPersonAim.FollowMouse = false;
     }
     IEnumerator DelayPauseResume(float timeScale, float delay)
     {
