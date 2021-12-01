@@ -27,6 +27,7 @@ public class Gun : MonoBehaviour
     Coroutine audioFadeCorutine;
     public Action Shooting;
     private AudioSource _audioSource;
+    static public Action AddAmmoEvent;
     public int Ammo
     {
         get
@@ -36,6 +37,8 @@ public class Gun : MonoBehaviour
         set
         {
             _ammo = value;
+            AddAmmoEvent?.Invoke();
+
             if (_ammo > MaxAmmo)
                 _ammo = MaxAmmo;
         }
@@ -69,9 +72,9 @@ public class Gun : MonoBehaviour
     {
         return Image;
     }
-    private void Start()
+    private void Awake()
     {
-        _ammo = MaxAmmo;
+        _ammo = 0;
         _audioSource = GetComponent<AudioSource>();
     }
     // Update is called once per frame

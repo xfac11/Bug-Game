@@ -24,7 +24,6 @@ public class WaveUI : MonoBehaviour
 
     private IEnumerator UpdateTime()
     {
-        Debug.Log("Update time");
         TimeText.gameObject.SetActive(true);
         while(WaveHandler.Timer > 0)
         {
@@ -32,7 +31,6 @@ public class WaveUI : MonoBehaviour
             yield return null;
         }
         TimeText.gameObject.SetActive(false);
-        Debug.Log("Stop updating time");
     }
 
     private void UpdateUI(int Wavenumber, int Difficulty)

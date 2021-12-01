@@ -14,6 +14,18 @@ public class AIEnemy : MonoBehaviour, ITarget
         public float DamageRange;
         public float AttackRate;
         public int Health;
+        public EnemyStats IncreasePositive(float damagePer, float damageRangePer, float speedPer, float attackRatePer, float healthPer)
+        {
+
+            Damage = (int)(Damage * damagePer);
+            DamageRange *= damageRangePer;
+            AttackRate *= attackRatePer;
+            Health = (int)(Health * healthPer);
+            Speed *= speedPer;
+            
+            return this;
+
+        }
     }
     [SerializeField] private int Damage = 10;
     [SerializeField] private Transform Player;
@@ -41,7 +53,7 @@ public class AIEnemy : MonoBehaviour, ITarget
     {
         if(Player != null)
         {
-            if (Vector3.Distance(Player.position, transform.position) < DamageRange && _attackTime == 0)
+            if (Vector3.Distance(Player.position, transform.position) < DamageRange && _attackTime == 0 && !IsDead)
             {
                 StartCoroutine(AttackCooldown());
                 DealDamageToPlayer();
@@ -107,8 +119,8 @@ public class AIEnemy : MonoBehaviour, ITarget
         {
             _health = _maxHealth;
             IsDead = true;
-            LeanTween.rotate(gameObject, new Vector3(0, 0, 180), 1f);
-            Destroy(gameObject,2f);
+            LeanTween.rotate(gameObject, new Vector3(0, 0, 170), 1f);
+            Destroy(gameObject,1f);
             OnDeath?.Invoke();
         }
     }

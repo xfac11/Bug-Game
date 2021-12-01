@@ -19,6 +19,7 @@ public class ThirdPersonAim : MonoBehaviour
     static public bool FollowMouse = true;
     private void Awake()
     {
+        FollowMouse = true;
         _cinemachineBasicMultiChannelPerlin = ThirdPersonCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
     }
     private void Update()
@@ -31,7 +32,7 @@ public class ThirdPersonAim : MonoBehaviour
             Cursor.visible = true;
             return;
         }
-        if(ThirdPersonCamera.gameObject.activeSelf == false)
+        else
         {
             ThirdPersonCamera.gameObject.SetActive(true);
             AimCamera.gameObject.SetActive(true);

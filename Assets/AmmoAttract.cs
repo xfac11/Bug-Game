@@ -16,6 +16,7 @@ public class AmmoAttract : MonoBehaviour
     [SerializeField] private float Speed = 5.0f;
     [SerializeField] private float Distance = 1.0f;
     [SerializeField] private float TimeToScaleDown = 1.0f;
+    [SerializeField] private BugCreator BugCreator;
     private List<Ammo> AmmoPack;
 
     private void Awake()
@@ -24,7 +25,11 @@ public class AmmoAttract : MonoBehaviour
     }
     private void OnEnable()
     {
-        FindObjectOfType<BugCreator>().AmmoSpawnEvent += AddAmmoToAttract;
+        BugCreator.AmmoSpawnEvent += AddAmmoToAttract;
+    }
+    private void OnDisable()
+    {
+        BugCreator.AmmoSpawnEvent -= AddAmmoToAttract;
     }
     private void AddAmmoToAttract(GameObject ammoObject)
     {

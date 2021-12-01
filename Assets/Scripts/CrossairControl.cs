@@ -17,7 +17,6 @@ public class CrossairControl : MonoBehaviour
         ThirdPersonAim.Aimed += DisplayCrossAir;
         ThirdPersonAim.NoAim += DisplayNormalCrossAir;
     }
-
     private void HitEnemy()
     {
         StartCoroutine(ShowHitMark());
@@ -26,12 +25,13 @@ public class CrossairControl : MonoBehaviour
     private IEnumerator ShowHitMark()
     {
         HitMark.SetActive(true);
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.1f);
         HitMark.SetActive(false);
     }
 
     private void OnDisable()
     {
+        AIEnemy.OnHit -= HitEnemy;
         ThirdPersonAim.Aimed -= DisplayCrossAir;
         ThirdPersonAim.NoAim -= DisplayNormalCrossAir;
     }

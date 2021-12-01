@@ -11,13 +11,16 @@ public class GunSwitcher : MonoBehaviour
     private int _gunNumber;
     public Action<GameObject> GunSwitch;
     private ThirdPersonAim _thirdPersonAim;
+    private void Awake()
+    {
+        _currentWeapon = SecondGun;
+    }
     void Start()
     {
         SecondGun.GetComponent<Gun>().Shooting += CameraShaking; 
         FirstGun.SetActive(false);
         SecondGun.SetActive(false);
-        _currentWeapon = FirstGun;
-        _gunNumber = 1;
+        _gunNumber = 2;
         _thirdPersonAim = GetComponent<ThirdPersonAim>();
     }
 
@@ -45,9 +48,6 @@ public class GunSwitcher : MonoBehaviour
                 GunSwitch?.Invoke(_currentWeapon);
 
             }
-        }
-        if(Input.GetMouseButtonDown(1))
-        {
         }
         if (Input.GetMouseButton(1))
         {

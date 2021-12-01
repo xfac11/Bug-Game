@@ -6,6 +6,7 @@ public static class FadeAudioSource
 {
     public static IEnumerator StartFade(AudioSource audioSource, float duration, float targetVolume, bool shouldStop)
     {
+        
         float currentTime = 0;
         float start = audioSource.volume;
 

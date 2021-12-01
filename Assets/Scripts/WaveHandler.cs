@@ -22,15 +22,15 @@ public class WaveHandler : MonoBehaviour
     [SerializeField] private int TimeBetweenWaves;
     [SerializeField] private List<AIEnemy.EnemyStats> EnemyStats;
     [SerializeField] private Transform PlacesToSpawnParent;
+    [SerializeField] private int Randomize;
     private List<SpawnerLocation> PlacesToSpawn;
     private List<int> _availableLocations;
-    [SerializeField] private int Randomize;
     private int _numberOfEnemies = 0;
     private int _numberOfSpawners = 0;
     private int _currentEnemies = 0;
     private int _currentSpawners = 0;
     private int _timer;
-
+    private AudioSource _newWaveSound;
     /// <summary>
     /// Returns the timer and incremented by 1 to account for float
     /// </summary>
@@ -43,6 +43,7 @@ public class WaveHandler : MonoBehaviour
     }
     private void Awake()
     {
+        _newWaveSound = GetComponent<AudioSource>();
         _availableLocations = new List<int>();
         PlacesToSpawn = new List<SpawnerLocation>();
         foreach (var item in PlacesToSpawnParent.GetComponentsInChildren<Transform>())
@@ -60,10 +61,6 @@ public class WaveHandler : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        StartWave();
-    }
     private void OnEnable()
     {
         AIEnemy.OnDeath += EnemyDied;
@@ -76,13 +73,24 @@ public class WaveHandler : MonoBehaviour
     private void EnemyDied()
     {
         _currentEnemies--;
-        Debug.Log("Enemy died. " + _currentEnemies + " enemies Left");
         OnDeath?.Invoke(_currentEnemies);//To update the UI. If there are 10 enemies left the UI will display that.
-        if(_currentEnemies == 0)
+        if(_currentEnemies <= 0)
         {
+            _currentEnemies = 0;
             StartCoroutine(CountdownToNextWave());
             OnWaveFinished?.Invoke();
         }
+    }
+    public IEnumerator CountdownToNextWave(float countdownTime)
+    {
+        float time = countdownTime;
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+            _timer = (int)time;
+            yield return null;
+        }
+        StartWave();
     }
 
     private IEnumerator CountdownToNextWave()
@@ -100,7 +108,7 @@ public class WaveHandler : MonoBehaviour
     private void StartWave()
     {
         ResetSpawnerLocations();
-        if(WaveNumber == 10)
+        if(WaveNumber == 7)
         {
             WaveNumber = 0;
             Difficulty++;
@@ -131,21 +139,7 @@ public class WaveHandler : MonoBehaviour
         _currentEnemies = _numberOfEnemies * _numberOfSpawners;
         while(_numberOfSpawners != 0)
         {
-            GameObject newSpawnerObj = Instantiate(SpawnerPrefab);
-            Spawner spawner = newSpawnerObj.GetComponent<Spawner>();
-            if (Difficulty < EnemyStats.Count)
-            {
-                spawner.EnemyStats = EnemyStats[Difficulty];
-            }
-            else
-            {
-                spawner.EnemyStats = EnemyStats[EnemyStats.Count-1];
-            }
-            spawner.SetEnemiesToSpawn(_numberOfEnemies);
-            spawner.SetSpawnRate(4.5f);
-            spawner.transform.position = GetRandomPosition();
-            spawner.transform.eulerAngles = new Vector3(0f, UnityEngine.Random.rotation.eulerAngles.y, 0f);
-            spawner.OnFinish += SpawnerFinished;
+            SpawnSpawner();
             _numberOfSpawners--;
             if (_numberOfSpawners < 0)
                 _numberOfSpawners = 0;
@@ -154,9 +148,43 @@ public class WaveHandler : MonoBehaviour
         yield return null;
     }
 
+    private void SpawnSpawner()
+    {
+        GameObject newSpawnerObj = Instantiate(SpawnerPrefab);
+        Spawner spawner = newSpawnerObj.GetComponent<Spawner>();
+        PrepareSpawner(spawner, _numberOfEnemies, GetRandomPosition(), UnityEngine.Random.rotation);
+    }
+    public void SpawnSpawner(int enemiesToSpawn, Vector3 position, Quaternion rotation)
+    {
+        GameObject newSpawnerObj = Instantiate(SpawnerPrefab);
+        Spawner spawner = newSpawnerObj.GetComponent<Spawner>();
+        PrepareSpawner(spawner, enemiesToSpawn, position, rotation);
+    }
+    private void PrepareSpawner(Spawner spawner, int enemiesToSpawn, Vector3 position, Quaternion rotation)
+    {
+        spawner.EnemyStats = GetStats();
+        spawner.SetEnemiesToSpawn(enemiesToSpawn);
+        spawner.SetSpawnRate(4.5f);
+        spawner.transform.position = position;
+        spawner.transform.eulerAngles = new Vector3(0f, rotation.eulerAngles.y, 0f);
+        spawner.OnFinish += SpawnerFinished;
+    }
+
+    private AIEnemy.EnemyStats GetStats()
+    {
+        if (Difficulty < EnemyStats.Count)
+        {
+            return EnemyStats[Difficulty];
+        }
+        else
+        {
+            return EnemyStats[EnemyStats.Count - 1].IncreasePositive(speedPer:1.1f,damageRangePer:1.1f,attackRatePer:0.95f,healthPer:1.1f,damagePer:1.1f);
+        }
+    }
+
     private void SpawnerFinished(GameObject obj)
     {
-        Destroy(obj);//Destroys the spawner object
+        Destroy(obj,1f);//Destroys the spawner object
     }
 
     private Vector3 GetRandomPosition()

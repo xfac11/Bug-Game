@@ -5,9 +5,13 @@ using UnityEngine;
 
 public class CoinSystem : MonoBehaviour
 {
-    private int _coins = 99;
+    private int _coins = -1;
     static public Action<int> OnAddedCoin;
-    private void Awake()
+    private void OnDisable()
+    {
+        AIEnemy.OnDeath -= AddWorth;
+    }
+    private void OnEnable()
     {
         AIEnemy.OnDeath += AddWorth;
     }

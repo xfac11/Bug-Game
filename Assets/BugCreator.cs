@@ -41,13 +41,7 @@ public class BugCreator : MonoBehaviour
                 int nrOfObjectsToSpawn = MinimumBuggedObjects - _currentBuggedObjects;
                 if(nrOfObjectsToSpawn <= 0)
                 {
-                    //Spawn only one
-                    GameObject newObject = Instantiate(BugObjectPrefab);
-                    BuggedObject buggedObject = newObject.GetComponent<BuggedObject>();
-                    buggedObject.Fixed += SpawnAmmo;
-                    buggedObject.Fixed += DestoryBuggedObject;
-                    newObject.transform.position = GetRandomPosition();
-                    newObject.transform.rotation = UnityEngine.Random.rotation;
+                    SpawnBuggedObject();
                     _currentBuggedObjects++;
                 }
                 else
@@ -55,12 +49,7 @@ public class BugCreator : MonoBehaviour
                     //Spawn as many as nrOfObjectsToSpawn is.
                     for (int i = 0; i < nrOfObjectsToSpawn; i++)
                     {
-                        GameObject newObject = Instantiate(BugObjectPrefab);
-                        BuggedObject buggedObject = newObject.GetComponent<BuggedObject>();
-                        buggedObject.Fixed += SpawnAmmo;
-                        buggedObject.Fixed += DestoryBuggedObject;
-                        newObject.transform.position = GetRandomPosition();
-                        newObject.transform.rotation = UnityEngine.Random.rotation;
+                        SpawnBuggedObject();
                         _currentBuggedObjects++;
                     }
                 }
@@ -102,6 +91,24 @@ public class BugCreator : MonoBehaviour
         if (_currentBuggedObjects < 0)
             _currentBuggedObjects = 0;
     }
-
+    private void SpawnBuggedObject()
+    {
+        GameObject newObject = Instantiate(BugObjectPrefab);
+        BuggedObject buggedObject = newObject.GetComponent<BuggedObject>();
+        buggedObject.Fixed += SpawnAmmo;
+        buggedObject.Fixed += DestoryBuggedObject;
+        newObject.transform.position = GetRandomPosition();
+        newObject.transform.rotation = UnityEngine.Random.rotation;
+    }
+    public BuggedObject SpawnBuggedObject(Vector3 position, Quaternion rotaion)
+    {
+        GameObject newObject = Instantiate(BugObjectPrefab);
+        BuggedObject buggedObject = newObject.GetComponent<BuggedObject>();
+        buggedObject.Fixed += SpawnAmmo;
+        buggedObject.Fixed += DestoryBuggedObject;
+        newObject.transform.position = position;
+        newObject.transform.rotation = rotaion;
+        return buggedObject;
+    }
 
 }
