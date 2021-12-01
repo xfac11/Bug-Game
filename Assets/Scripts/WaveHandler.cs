@@ -178,7 +178,7 @@ public class WaveHandler : MonoBehaviour
         }
         else
         {
-            return EnemyStats[EnemyStats.Count - 1].IncreasePositive(speedPer:1.1f,damageRangePer:1.1f,attackRatePer:0.95f,healthPer:1.1f,damagePer:1.1f);
+            return EnemyStats[EnemyStats.Count - 1].IncreasePositive(speedPer:1.2f,damageRangePer:1.0f,attackRatePer:0.95f,healthPer:1.1f,damagePer:1.3f);
         }
     }
 

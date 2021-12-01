@@ -4083,9 +4083,9 @@ MonoBehaviour:
   WaveNumber: 0
   TimeBetweenWaves: 15
   EnemyStats:
-  - Damage: 5
-    Speed: 5
-    DamageRange: 3
+  - Damage: 10
+    Speed: 6
+    DamageRange: 2.75
     AttackRate: 1
     Health: 100
   PlacesToSpawnParent: {fileID: 1515646547}
